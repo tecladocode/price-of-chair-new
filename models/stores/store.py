@@ -40,9 +40,12 @@ class Store(Model):
         :param url: The item's URL
         :return: a Store, or raises a StoreNotFoundException if no store matches the URL
         """
-        for i in range(0, len(url)+1):
+        for i in range(len(url)+1, 0, -1):
             try:
+                print(f"Trying to find store starting with {url[:i]}")
                 store = cls.get_by_url_prefix(url[:i])
                 return store
             except:
-                raise StoreErrors.StoreNotFoundException("The URL Prefix used to find the store didn't give us any results!")
+                continue
+        else:
+            raise StoreErrors.StoreNotFoundException("The URL Prefix used to find the store didn't give us any results!")
