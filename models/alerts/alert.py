@@ -60,6 +60,7 @@ class Alert(Model):
     def load_item_price(self) -> float:
         self.item.load_price()
         self.last_checked = datetime.datetime.utcnow()
+        print(self.item.price)
         self.item.save_to_mongo()
         self.save_to_mongo()
         return self.item.price
