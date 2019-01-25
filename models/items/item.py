@@ -6,13 +6,12 @@ import requests
 import re
 from models.model import Model
 from common.database import Database
-import models.items.constants as ItemConstants
 from models.stores.store import Store
 
 
 @dataclass(eq=False)
 class Item(Model):
-    collection: str = field(init=False, default=ItemConstants.COLLECTION)
+    collection: str = field(init=False, default="items")
     name: str
     url: str
     price: float = None

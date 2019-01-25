@@ -1,17 +1,17 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
+from flask import current_app
 import uuid
 import datetime
 import requests
 from models.model import Model
 from common.database import Database
-import models.alerts.constants as AlertConstants
 from models.items.item import Item
 
 
 @dataclass(eq=False)
 class Alert(Model):
-    collection: str = field(init=False, default=AlertConstants.COLLECTION)
+    collection: str = field(init=False, default="alerts")
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
     user_email: str
     price_limit: str
@@ -25,10 +25,10 @@ class Alert(Model):
 
     def send(self) -> requests.Request:
         return requests.post(
-            AlertConstants.URL,
-            auth=("api", AlertConstants.API_KEY),
+            current_app.config.MAILGUN_URL,
+            auth=("api", current_app.config.MAILGUN_API_KEY),
             data={
-                "from": AlertConstants.FROM,
+                "from": current_app.config.MAILGUN_FROM,
                 "to": self.user_email,
                 "subject": "Price limit reached for {}".format(self.item.name),
                 "text": "We've found a deal! ({}).".format(self.item.url),
@@ -36,16 +36,14 @@ class Alert(Model):
         )
 
     @classmethod
-    def find_needing_update(
-        cls, minutes_since_update: int = AlertConstants.ALERT_TIMEOUT
-    ) -> List["Alert"]:
+    def find_needing_update(cls, minutes_since_update: int) -> List["Alert"]:
         last_updated_limit = datetime.datetime.utcnow() - datetime.timedelta(
             minutes=minutes_since_update
         )
         return [
             cls(**elem)
             for elem in Database.find(
-                AlertConstants.COLLECTION,
+                cls.collection,
                 {"last_checked": {"$lte": last_updated_limit}, "active": True},
             )
         ]

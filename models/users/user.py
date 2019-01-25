@@ -6,12 +6,11 @@ from models.model import Model
 from common.database import Database
 from common.utils import Utils
 import models.users.errors as UserErrors
-import models.users.constants as UserConstants
 from models.alerts.alert import Alert
 
 
 class User(Model):
-    collection: str = field(init=False, default=UserConstants.COLLECTION)
+    collection: str = field(init=False, default="users")
     email: str
     password: str
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)

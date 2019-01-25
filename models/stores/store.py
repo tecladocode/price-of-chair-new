@@ -3,13 +3,12 @@ import uuid
 from typing import Dict
 from models.model import Model
 from common.database import Database
-import models.stores.constants as StoreConstants
 import models.stores.errors as StoreErrors
 
 
 @dataclass
 class Store(Model):
-    collection: str = field(init=False, default=StoreConstants.COLLECTION)
+    collection: str = field(init=False, default="stores")
     name: str
     url_prefix: str
     tag_name: str

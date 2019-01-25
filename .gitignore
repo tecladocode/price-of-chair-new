@@ -2,3 +2,4 @@ venv/
 .vscode/
 .idea/
 *.pyc
+.env
