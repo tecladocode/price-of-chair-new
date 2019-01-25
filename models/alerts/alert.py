@@ -12,12 +12,12 @@ from models.items.item import Item
 @dataclass(eq=False)
 class Alert(Model):
     collection: str = field(init=False, default="alerts")
-    _id: str = field(default_factory=lambda: uuid.uuid4().hex)
     user_email: str
     price_limit: str
     item_id: str
     active: bool = True
     last_checked: datetime.datetime = field(default_factory=datetime.datetime.utcnow)
+    _id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
     @property
     def item(self) -> Item:

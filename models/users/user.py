@@ -9,6 +9,7 @@ import models.users.errors as UserErrors
 from models.alerts.alert import Alert
 
 
+@dataclass
 class User(Model):
     collection: str = field(init=False, default="users")
     email: str

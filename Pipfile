@@ -10,6 +10,7 @@ requests = "*"
 passlib = "*"
 Flask = "*"
 uWSGI = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pylint = "*"

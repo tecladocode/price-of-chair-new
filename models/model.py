@@ -10,12 +10,20 @@ class Model(metaclass=ABCMeta):
     @property
     @abstractmethod
     def collection(self):
-        raise NotImplementedError
+        return self._collection
+    
+    @collection.setter
+    def collection(self, value):
+        self._collection = value
     
     @property
     @abstractmethod
     def _id(self):
-        raise NotImplementedError
+        return self.__id
+    
+    @_id.setter
+    def _id(self, value):
+        self.__id = value
     
     def save_to_mongo(self):
         Database.update(self.collection, {"_id": self._id}, self.json())

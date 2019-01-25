@@ -6,7 +6,7 @@
     {% for alert in alerts %}
     <a href="/alerts/{{ alert._id }}" class="list-group-item {{ 'list-group-item-warning' if not alert.active else '' }}">
         <h4 class="list-group-item-heading">
-            {{ "<span class="glyphicon glyphicon-remove-circle"></span> " if not
+            {{ '<span class="glyphicon glyphicon-remove-circle"></span> ' if not
             alert.active else '' }} Alert for {{ alert.item.name }}
         </h4>
         <p class="list-group-item-text">

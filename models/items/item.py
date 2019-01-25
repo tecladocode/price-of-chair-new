@@ -19,8 +19,8 @@ class Item(Model):
     tag_name: str = field(init=False)
     query: Dict = field(init=False)
 
-    def __post_init__(self, name, url, price, _id):
-        store = Store.find_by_url(url)
+    def __post_init__(self):
+        store = Store.find_by_url(self.url)
         self.tag_name = store.tag_name
         self.query = store.query
 
