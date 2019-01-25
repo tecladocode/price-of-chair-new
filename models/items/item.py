@@ -31,10 +31,9 @@ class Item(Model):
         element = soup.find(self.tag_name, self.query)
         string_price = element.text.strip()
 
-        pattern = re.compile("(\d+.\d+)")
+        pattern = re.compile(r"(\d+.\d+)")
         match = pattern.search(string_price)
-        self.price = float(match.group())
-
+        self.price = float(match.group(1))
         return self.price
 
     def json(self):

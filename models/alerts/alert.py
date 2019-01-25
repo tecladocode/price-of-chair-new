@@ -19,9 +19,8 @@ class Alert(Model):
     last_checked: datetime.datetime = field(default_factory=datetime.datetime.utcnow)
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
-    @property
-    def item(self) -> Item:
-        return Item.get_by_id(self.item_id)
+    def __post_init__(self):
+        self.item = Item.get_by_id(self.item_id)
 
     def send(self) -> requests.Request:
         return requests.post(
@@ -61,6 +60,7 @@ class Alert(Model):
     def load_item_price(self) -> float:
         self.item.load_price()
         self.last_checked = datetime.datetime.utcnow()
+        print(self.item.price)
         self.item.save_to_mongo()
         self.save_to_mongo()
         return self.item.price
