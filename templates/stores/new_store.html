@@ -18,19 +18,11 @@
             </span>
         </div>
         <div class="form-group">
-            <label for="tag_name">Tag name</label>
-            <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="span" value="span"
-                aria-describedby="tagNameHelp">
-            <span id="tagNameHelp" class="help-block">
-                What is the HTML tag of the item that contains the item price? (usually 'span')
-            </span>
-        </div>
-        <div class="form-group">
-            <label for="query">Query</label>
-            <input type="text" class="form-control" id="query" name="query" placeholder='{"id": "..."}'
-                aria-describedby="queryHelpBlock">
-            <span id="queryHelpBlock" class="help-block">
-                What JSON query would we have to do to find the specific tag with the price?
+            <label for="tag_name">Selector</label>
+            <input type="text" class="form-control" id="selector" name="selector" placeholder="span" value="p.price.price--large"
+                aria-describedby="selectorHelp">
+            <span id="selectorHelp" class="help-block">
+                What is the CSS selector that will give us the item containing the price?
             </span>
         </div>
         <button type="submit" class="btn btn-default">Create</button>

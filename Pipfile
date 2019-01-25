@@ -11,6 +11,7 @@ passlib = "*"
 Flask = "*"
 uWSGI = "*"
 python-dotenv = "*"
+requests-html = "*"
 
 [dev-packages]
 pylint = "*"

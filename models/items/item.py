@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from typing import Dict
 import uuid
 from bs4 import BeautifulSoup
-import requests
+from requests_html import HTMLSession
 import re
 from models.model import Model
 from common.database import Database
@@ -16,19 +16,22 @@ class Item(Model):
     url: str
     price: float = None
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
-    tag_name: str = field(init=False)
-    query: Dict = field(init=False)
+    selector: str = field(init=False)
 
     def __post_init__(self):
         store = Store.find_by_url(self.url)
-        self.tag_name = store.tag_name
-        self.query = store.query
+        self.selector = store.selector
 
     def load_price(self):
-        request = requests.get(self.url)
-        content = request.content
-        soup = BeautifulSoup(content, "html.parser")
-        element = soup.find(self.tag_name, self.query)
+        session = HTMLSession()
+        request = session.get(self.url)
+        # Although not working well at the moment.
+        # in the future we will be able to do request.html.render() in order
+        # to evaluate JavaScript, which greatly increases the
+        # capabilities of this project.
+        # https://github.com/thp/urlwatch/pull/310
+        # and https://github.com/kennethreitz/requests-html/issues/155
+        element = request.html.find(self.selector, first=True)
         string_price = element.text.strip()
 
         pattern = re.compile(r"(\d+.\d+)")
