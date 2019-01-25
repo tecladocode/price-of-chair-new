@@ -11,7 +11,8 @@ class Store(Model):
     collection: str = field(init=False, default="stores")
     name: str
     url_prefix: str
-    selector: str
+    tag_name: str
+    query: Dict
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
     def json(self) -> Dict:
@@ -19,7 +20,8 @@ class Store(Model):
             "_id": self._id,
             "name": self.name,
             "url_prefix": self.url_prefix,
-            "selector": self.selector
+            "tag_name": self.tag_name,
+            "query": self.query
         }
 
     @classmethod
@@ -38,12 +40,9 @@ class Store(Model):
         :param url: The item's URL
         :return: a Store, or raises a StoreNotFoundException if no store matches the URL
         """
-        for i in range(len(url)+1, 0, -1):
+        for i in range(0, len(url)+1):
             try:
-                print(f"Trying to find store starting with {url[:i]}")
                 store = cls.get_by_url_prefix(url[:i])
                 return store
             except:
-                continue
-        else:
-            raise StoreErrors.StoreNotFoundException("The URL Prefix used to find the store didn't give us any results!")
+                raise StoreErrors.StoreNotFoundException("The URL Prefix used to find the store didn't give us any results!")

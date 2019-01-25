@@ -11,7 +11,7 @@ It allows administrators (defined via `src/config.py`) to add, remove, and edit 
 You will need a Mailgun account and API details for the e-mailing to work.
 E-mails are sent via executing the `src/alert_updater.py` file. In order to check e.g. every 10 minutes, the file must be executed every 10 minutes. This can be done with a cron job or a Windows service.
 
-It parses the store websites using `requests-html`.
+It parses the store websites using `requests` and `BeautifulSoup`.
 
 It **does not work with Stores that dynamically inject content using JavaScript**.
 

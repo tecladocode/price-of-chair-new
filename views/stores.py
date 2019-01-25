@@ -16,9 +16,10 @@ def create_store():
     if request.method == 'POST':
         name = request.form['name']
         url_prefix = request.form['url_prefix']
-        selector = request.form['selector']
+        tag_name = request.form['tag_name']
+        query = json.loads(request.form['query'])
 
-        Store(name, url_prefix, selector).save_to_mongo()
+        Store(name, url_prefix, tag_name, query).save_to_mongo()
 
     # What happens if it's a GET request
     return render_template("stores/new_store.html")
@@ -29,13 +30,15 @@ def edit_store(store_id):
     if request.method == 'POST':
         name = request.form['name']
         url_prefix = request.form['url_prefix']
-        selector = request.form['selector']
+        tag_name = request.form['tag_name']
+        query = json.loads(request.form['query'])
 
         store = Store.get_by_id(store_id)
 
         store.name = name
         store.url_prefix = url_prefix
-        store.selector = selector
+        store.tag_name = tag_name
+        store.query = query
 
         store.save_to_mongo()
 
