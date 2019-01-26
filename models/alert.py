@@ -6,7 +6,7 @@ import datetime
 import requests
 from models.model import Model
 from common.database import Database
-from models.items.item import Item
+from models.item import Item
 
 
 @dataclass(eq=False)

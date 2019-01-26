@@ -5,8 +5,8 @@ from typing import Dict, List
 from models.model import Model
 from common.database import Database
 from common.utils import Utils
-import models.users.errors as UserErrors
-from models.alerts.alert import Alert
+from models.user import UserErrors
+from models.alert import Alert
 
 
 @dataclass

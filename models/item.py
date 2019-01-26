@@ -6,7 +6,7 @@ import requests
 import re
 from models.model import Model
 from common.database import Database
-from models.stores.store import Store
+from models.store import Store
 
 
 @dataclass(eq=False)

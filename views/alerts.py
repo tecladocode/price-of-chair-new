@@ -1,15 +1,15 @@
 from flask import Blueprint, request, render_template, session, redirect, url_for
 
-from models.alerts.alert import Alert
-from models.items.item import Item
-import models.users.decorators as user_decorators
+from models.alert import Alert
+from models.item import Item
+from models.user import UserDecorators
 
 
 alert_blueprint = Blueprint('alerts', __name__)
 
 
 @alert_blueprint.route('/new', methods=['GET', 'POST'])
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def create_alert():
     if request.method == 'POST':
         name = request.form['name']
@@ -27,7 +27,7 @@ def create_alert():
 
 
 @alert_blueprint.route('/edit/<string:alert_id>', methods=['GET', 'POST'])
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def edit_alert(alert_id):
     if request.method == 'POST':
         price_limit = float(request.form['price_limit'])
@@ -41,28 +41,28 @@ def edit_alert(alert_id):
 
 
 @alert_blueprint.route('/deactivate/<string:alert_id>')
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def deactivate_alert(alert_id):
     Alert.get_by_id(alert_id).deactivate()
     return redirect(url_for('users.user_alerts'))
 
 
 @alert_blueprint.route('/activate/<string:alert_id>')
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def activate_alert(alert_id):
     Alert.get_by_id(alert_id).activate()
     return redirect(url_for('users.user_alerts'))
 
 
 @alert_blueprint.route('/delete/<string:alert_id>')
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def delete_alert(alert_id):
     Alert.get_by_id(alert_id).remove_from_mongo()
     return redirect(url_for('users.user_alerts'))
 
 
 @alert_blueprint.route('/<string:alert_id>')
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def get_alert_page(alert_id):
     return render_template('alerts/alert.html', alert=Alert.get_by_id(alert_id))
 

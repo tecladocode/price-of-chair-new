@@ -1,5 +1,5 @@
 from common.database import Database
-from models.alerts.alert import Alert
+from models.alert import Alert
 
 Database.initialize()
 
