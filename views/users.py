@@ -52,6 +52,6 @@ def logout_user():
 
 
 @user_blueprint.route('/check_alerts/<string:user_id>')
-@user_decorators.requires_login
+@UserDecorators.requires_login
 def check_user_alerts(user_id):
     pass
