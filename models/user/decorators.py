@@ -3,7 +3,7 @@ from typing import Callable
 from flask import session, flash, redirect, url_for, request
 
 
-def requires_login(f: Callable):
+def requires_login(f: Callable) -> Callable:
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'email' not in session.keys() or session['email'] is None:

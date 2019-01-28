@@ -14,7 +14,7 @@
     </a>
     {% endfor %}
 </div>
-{% if session['email'] in config.ADMINS %}
+{% if session['email'] in config.ADMIN %}
 <a class="btn btn-success" href="{{ url_for('stores.create_store') }}">
     <span class="glyphicon glyphicon-plus"></span> Create new
 </a>
