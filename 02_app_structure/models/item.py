@@ -24,18 +24,16 @@ class Item(Model):
         self.tag_name = store.tag_name
         self.query = store.query
 
-    def load_price(self) -> float:
+    def load_price(self):
         request = requests.get(self.url)
         content = request.content
         soup = BeautifulSoup(content, "html.parser")
         element = soup.find(self.tag_name, self.query)
         string_price = element.text.strip()
 
-        pattern = re.compile(r"(\d+,?\d+\.\d+)")
+        pattern = re.compile(r"(\d+.\d+)")
         match = pattern.search(string_price)
-        found_price = match.group(1)
-        without_commas = found_price.replace(",", "")
-        self.price = float(without_commas)
+        self.price = float(match.group(1))
         return self.price
 
     def json(self):

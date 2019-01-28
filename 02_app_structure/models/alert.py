@@ -29,8 +29,8 @@ class Alert(Model):
             data={
                 "from": current_app.config.MAILGUN_FROM,
                 "to": self.user_email,
-                "subject": f"Price limit reached for {self.item.name}",
-                "text": f"We've found a deal! ({self.item.url}).",
+                "subject": "Price limit reached for {}".format(self.item.name),
+                "text": "We've found a deal! ({}).".format(self.item.url),
             },
         )
 
