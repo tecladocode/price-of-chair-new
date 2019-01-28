@@ -5,7 +5,7 @@ from typing import Dict, List
 from models.model import Model
 from common.database import Database
 from common.utils import Utils
-from models.user import UserErrors
+import models.user.errors as UserErrors
 from models.alert import Alert
 
 

@@ -13,6 +13,6 @@ ipad.save_to_mongo()
 #   Find colleciton
 #   Check item
 
-items_loaded = Item.find_all()
+items_loaded = Item.all()
 print(items_loaded)
 print(items_loaded[0].load_price())

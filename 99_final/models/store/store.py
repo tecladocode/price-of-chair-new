@@ -3,7 +3,7 @@ import uuid
 from typing import Dict
 from models.model import Model
 from common.database import Database
-from models.store import StoreErrors
+import models.store.errors as StoreErrors
 
 
 @dataclass

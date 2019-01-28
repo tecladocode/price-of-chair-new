@@ -41,7 +41,7 @@ class Item:
         }
     
     @classmethod
-    def find_all(cls) -> List["Item"]:
+    def all(cls) -> List["Item"]:
         items_from_db = Database.find("items", {})
         return [cls(**item) for item in items_from_db]
     

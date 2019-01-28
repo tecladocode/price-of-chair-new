@@ -28,7 +28,7 @@ class Alert:
             print(f"Item {self.item} has reached a price under {self.price_limit}. Latest price: {self.item.price}.")
 
     @classmethod
-    def find_all(cls) -> List["Alert"]:
+    def all(cls) -> List["Alert"]:
         alerts_from_db = Database.find("alerts", {})
         return [cls(**alert) for alert in alerts_from_db]
     
