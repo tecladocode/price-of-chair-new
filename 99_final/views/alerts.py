@@ -34,7 +34,7 @@ def edit_alert(alert_id):
 
         alert = Alert.get_by_id(alert_id)
         alert.price_limit = price_limit
-        alert.load_item_price()  # This already saves to MongoDB
+        alert.save_to_mongo()
 
     # What happens if it's a GET request
     return render_template("alerts/edit_alert.html", alert=Alert.get_by_id(alert_id))  # Send the user an error if their login was invalid

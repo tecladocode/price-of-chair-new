@@ -1,9 +1,9 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 import uuid
+import re
 from typing import Dict
 from models.model import Model
 from common.database import Database
-import models.store.errors as StoreErrors
 
 
 @dataclass(eq=False)
@@ -38,14 +38,9 @@ class Store(Model):
         """
         Return a store from a url like "http://www.johnlewis.com/item/sdfj4h5g4g21k.html"
         :param url: The item's URL
-        :return: a Store, or raises a StoreNotFoundException if no store matches the URL
+        :return: a Store
         """
-        for i in range(len(url)+1, 0, -1):
-            try:
-                print(f"Trying to find store starting with {url[:i]}")
-                store = cls.get_by_url_prefix(url[:i])
-                return store
-            except:
-                continue
-        else:
-            raise StoreErrors.StoreNotFoundException("The URL Prefix used to find the store didn't give us any results!")
+        pattern = re.compile(r"(https?:\/\/.*?\/)")
+        match = pattern.search(url)
+        url_prefix = match.group(1)
+        return cls.get_by_url_prefix(url_prefix)
