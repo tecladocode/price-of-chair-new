@@ -11,11 +11,3 @@ class UserAlreadyRegisteredError(UserError):
 
 class InvalidEmailError(UserError):
     pass
-
-
-class UserNotExistsError(UserError):
-    pass
-
-
-class IncorrectPasswordError(UserError):
-    pass
