@@ -4,21 +4,11 @@ from common.database import Database
 
 
 class Model(metaclass=ABCMeta):
-    @property
-    def collection(self):
-        return self._collection
+    collection: str
+    _id: str
     
-    @collection.setter
-    def collection(self, value):
-        self._collection = value
-    
-    @property
-    def _id(self):
-        return self.__id
-    
-    @_id.setter
-    def _id(self, value):
-        self.__id = value
+    def __init__(self, *args, **kwargs):
+        pass
         
     def save_to_mongo(self):
         Database.update(self.collection, {"_id": self._id}, self.json())
