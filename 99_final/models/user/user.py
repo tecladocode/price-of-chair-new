@@ -6,7 +6,6 @@ from models.model import Model
 from common.database import Database
 from common.utils import Utils
 import models.user.errors as UserErrors
-from models.alert import Alert
 
 
 @dataclass
@@ -65,6 +64,3 @@ class User(Model):
             "email": self.email,
             "password": self.password
         }
-
-    def get_alerts(self) -> List[Alert]:
-        return Alert.find_by_user_email(self.email)

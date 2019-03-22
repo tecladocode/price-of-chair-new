@@ -9,7 +9,7 @@
         {% for alert in alerts %}
         <div class="list-group-item">
             <h4 class="list-group-item-heading">{{ alert.name }}</h4>
-            <p class="list-group-item-text">
+            <p >
                 
                 <a href="{{ alert.item.url }}">{{ alert.item.url }}</a> (last price £{{ alert.item.price }})
             </p>
@@ -19,5 +19,6 @@
     <a class="btn btn-primary mt-3" href="{{ url_for('alerts.create_alert') }}">
         Create new
     </a>
+
 </section>
 {% endblock %}

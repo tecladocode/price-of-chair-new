@@ -34,7 +34,6 @@ def create_alert():
 
 
 @alert_blueprint.route('/edit/<string:alert_id>', methods=['GET', 'POST'])
-@UserDecorators.requires_login
 def edit_alert(alert_id):
     if request.method == 'POST':
         price_limit = float(request.form['price_limit'])

@@ -34,7 +34,6 @@ def create_alert():
 
 
 @alert_blueprint.route('/edit/<string:alert_id>', methods=['GET', 'POST'])
-@UserDecorators.requires_login
 def edit_alert(alert_id):
     if request.method == 'POST':
         price_limit = float(request.form['price_limit'])
@@ -50,7 +49,6 @@ def edit_alert(alert_id):
 
 
 @alert_blueprint.route('/delete/<string:alert_id>')
-@UserDecorators.requires_login
 def delete_alert(alert_id):
     Alert.get_by_id(alert_id).remove_from_mongo()
-    return redirect(url_for('users.user_alerts'))
+    return redirect(url_for('.index'))
