@@ -11,7 +11,7 @@ alert_blueprint = Blueprint('alerts', __name__)
 @alert_blueprint.route('/')
 @requires_login
 def index():
-    alerts = Alert.find_many_by('email', session['email'])
+    alerts = Alert.find_many_by('user_email', session['email'])
     return render_template('alerts/index.html', alerts=alerts)
 
 

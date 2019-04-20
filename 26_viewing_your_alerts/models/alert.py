@@ -25,7 +25,8 @@ class Alert(Model):
             "_id": self._id,
             "name": self.name,
             "price_limit": self.price_limit,
-            "item_id": self.item._id
+            "item_id": self.item._id,
+            "user_email": self.user_email
         }
 
     def load_item_price(self) -> float:
