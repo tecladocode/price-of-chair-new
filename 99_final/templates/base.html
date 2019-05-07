@@ -1,67 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<head>
     <title>Price Alerts</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
 
-    {% include 'html_dependencies.html' %}
-  </head>
-  <body>
-    <nav class="navbar navbar-fixed-top navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <button
-            type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#navbar"
-            aria-expanded="false"
-            aria-controls="navbar"
-          >
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span> <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/" title="Home">Pricing</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li>
-              <a href="{{ url_for('stores.index') }}" title="Stores">Stores</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            {% if session['email'] %}
-            <li>
-              <a href="{{ url_for('users.user_alerts') }}" title="Your Alerts">
-                <span class="glyphicon glyphicon-user"></span> Your Alerts
-              </a>
-            </li>
-            <li>
-              <a href="{{ url_for('users.logout_user') }}" title="Log Out">
-                <span class="glyphicon glyphicon-log-out"></span> Log out
-              </a>
-            </li>
-            {% else %}
-            <li>
-              <a href="{{ url_for('users.register_user') }}" title="Sign up">
-                <span class="glyphicon glyphicon-user"></span> Sign up
-              </a>
-            </li>
-            <li>
-              <a href="{{ url_for('users.login_user') }}" title="Log in">
-                <span class="glyphicon glyphicon-log-in"></span> Log in
-              </a>
-            </li>
+<body>
+    <div class="content container mt-2">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+            <a class="navbar-brand" href="#">Pricing Service</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                <a class="nav-item nav-link" href="{{ url_for('stores.index') }}">Stores</a>
+                <a class="nav-item nav-link" href="{{ url_for('alerts.index') }}">Alerts</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.login_user') }}">Log in</a>
+                <a class="nav-item nav-link" href="{{ url_for('users.register_user') }}">Sign up</a>
+                </div>
+            </div>
+        </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{category}}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
             {% endif %}
-          </ul>
-          ​
-        </div>
-      </div>
-    </nav>
+        {% endwith %}
 
-    <div class="content container">{% block content %} {% endblock %}</div>
-  </body>
+        <div class="mt-3">
+        {% block content %}
+
+        {% endblock %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
 </html>

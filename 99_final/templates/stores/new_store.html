@@ -1,39 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="page-header">
+<header>
     <h1>Create Store</h1>
-</div>
-<div class="form">
+</header>
+<section class="create-store-form">
     <form method="post">
         <div class="form-group">
-            <label for="name">Store name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="John Lewis">
         </div>
         <div class="form-group">
-            <label for="url_prefix">Store URL Prefix</label>
-            <input type="text" class="form-control" id="url_prefix" name="url_prefix" placeholder="http://..."
-                aria-describedby="storeURLPrefixHelp">
-            <span id="storeURLPrefixHelp" class="help-block">
-                What characters do URLs of all items in this online store start with?
-            </span>
+            <label for="url_prefix">URL Prefix</label>
+            <input type="text" class="form-control" id="url_prefix" name="url_prefix" placeholder="https://..."
+                aria-describedby="urlPrefixHelp">
+            <small id="urlPrefixHelp" class="form-text text-muted">
+                What URL will all its items start with?
+            </small>
         </div>
         <div class="form-group">
-            <label for="tag_name">Tag name</label>
-            <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="span" value="span"
-                aria-describedby="tagNameHelp">
-            <span id="tagNameHelp" class="help-block">
-                What is the HTML tag of the item that contains the item price? (usually 'span')
-            </span>
+            <label for="tag_name">HTML Tag Name</label>
+            <input type="text" class="form-control" id="tag_name" name="tag_name" placeholder="span"
+                aria-describedby="priceLimitHelp">
+            <small id="priceLimitHelp" class="form-text text-muted">
+                What HTML tag contains the price information for items in this store?
+            </small>
         </div>
         <div class="form-group">
-            <label for="query">Query</label>
-            <input type="text" class="form-control" id="query" name="query" placeholder='{"id": "..."}'
-                aria-describedby="queryHelpBlock">
-            <span id="queryHelpBlock" class="help-block">
-                What JSON query would we have to do to find the specific tag with the price?
-            </span>
+            <label for="query">HTML Query</label>
+            <input type="text" class="form-control" id="query" name="query" placeholder='{"class": "price price--large"}'
+                aria-describedby="queryHelp">
+            <small id="queryHelp" class="form-text text-muted">
+                What attributes are on the element that contain the price? This is so we can find it on the page.
+            </small>
         </div>
-        <button type="submit" class="btn btn-default">Create</button>
+        <button type="submit" class="btn btn-primary">Create</button>
     </form>
-</div>
+</section>
 {% endblock %}

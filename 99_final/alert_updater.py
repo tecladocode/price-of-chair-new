@@ -1,10 +1,10 @@
-from common.database import Database
 from models.alert import Alert
 
-Database.initialize()
+alerts = Alert.all()
 
-alerts_needing_update = Alert.find_needing_update(10)
-
-for alert in alerts_needing_update:
+for alert in alerts:
     alert.load_item_price()
-    alert.send_email_if_price_reached()
+    alert.notify_if_price_reached()
+
+if not alerts:
+    print("No alerts have been created. Add an item and an alert to begin!")

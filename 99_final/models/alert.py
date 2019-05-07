@@ -1,81 +1,44 @@
 from dataclasses import dataclass, field
 from typing import List, Dict
-from flask import current_app
 import uuid
-import datetime
-import requests
-from models.model import Model
+from libs.mailgun import Mailgun
 from common.database import Database
 from models.item import Item
+from models.user import User
+from models.model import Model
 
 
 @dataclass(eq=False)
 class Alert(Model):
     collection: str = field(init=False, default="alerts")
-    user_email: str
-    price_limit: str
+    name: str
     item_id: str
-    active: bool = True
-    last_checked: datetime.datetime = field(default_factory=datetime.datetime.utcnow)
+    price_limit: str
+    user_email: str
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
     def __post_init__(self):
         self.item = Item.get_by_id(self.item_id)
-
-    def send(self) -> requests.Request:
-        return requests.post(
-            current_app.config.MAILGUN_URL,
-            auth=("api", current_app.config.MAILGUN_API_KEY),
-            data={
-                "from": current_app.config.MAILGUN_FROM,
-                "to": self.user_email,
-                "subject": f"Price limit reached for {self.item.name}",
-                "text": f"We've found a deal! ({self.item.url}).",
-            },
-        )
-
-    @classmethod
-    def find_needing_update(cls, minutes_since_update: int) -> List["Alert"]:
-        last_updated_limit = datetime.datetime.utcnow() - datetime.timedelta(
-            minutes=minutes_since_update
-        )
-        return [
-            cls(**elem)
-            for elem in Database.find(
-                cls.collection,
-                {"last_checked": {"$lte": last_updated_limit}, "active": True},
-            )
-        ]
+        self.user = User.find_by_email(self.user_email)
 
     def json(self) -> Dict:
         return {
             "_id": self._id,
+            "name": self.name,
             "price_limit": self.price_limit,
-            "last_checked": self.last_checked,
-            "user_email": self.user_email,
-            "item_id": self.item._id,
-            "active": self.active,
+            "item_id": self.item._id
         }
 
     def load_item_price(self) -> float:
         self.item.load_price()
-        self.last_checked = datetime.datetime.utcnow()
-        self.item.save_to_mongo()
-        self.save_to_mongo()
         return self.item.price
 
-    def send_email_if_price_reached(self) -> None:
+    def notify_if_price_reached(self) -> None:
         if self.item.price < self.price_limit:
-            self.send()
-
-    @classmethod
-    def find_by_user_email(cls, user_email: str) -> List["Alert"]:
-        return cls.find_many_by("user_email", user_email)
-
-    def deactivate(self) -> None:
-        self.active = False
-        self.save_to_mongo()
-
-    def activate(self) -> None:
-        self.active = True
-        self.save_to_mongo()
+            print(f"Item {self.item} has reached a price under {self.price_limit}. Latest price: {self.item.price}.")
+            Mailgun.send_email(
+                email=[self.user_email],
+                subject=f'Notification for {self.name}',
+                text=f'Your alert {self.name} has reached a price under {self.price_limit}. The latest price is {self.item.price}. Go to this address to check your item: {self.item.url}.',
+                html=f'<p>Your alert {self.name} has reached a price under {self.price_limit}.</p><p>The latest price is {self.item.price}. Check your item out <a href="{self.item.url}>here</a>.</p>',
+            )

@@ -1,26 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="page-header">
+<header>
     <h1>Edit Alert</h1>
-</div>
-<div class="form">
+</header>
+<section class="create-alert-form">
     <form method="post">
         <div class="form-group">
-            <label for="name">Alert/Item Name</label>
+            <label for="name">Name</label>
             <input type="text" class="form-control" id="name" name="name" value="{{ alert.item.name }}" disabled>
         </div>
         <div class="form-group">
-            <label for="url">Item URL</label>
-            <input type="text" class="form-control" id="url" name="url" value="{{ alert.item.url }}" disabled>
+            <label for="item_url">Item URL</label>
+            <input type="text" class="form-control" id="item_url" name="item_url" value="{{ alert.item.url }}" disabled>
         </div>
         <div class="form-group">
-            <label for="price_limit">Alert limit</label>
-            <input type="text" class="form-control" id="price_limit" name="price_limit" placeholder="45.0" aria-describedby="priceLimitBlock" value="{{ alert.price_limit }}">
-            <span id="priceLimitBlock" class="help-block">
-                We'll send you an e-mail when the price reaches or goes under this.
-            </span>
+            <label for="price_limit">Price limit</label>
+            <input type="text" class="form-control" id="price_limit" name="price_limit" placeholder="120"
+            value="{{ alert.price_limit }}" aria-describedby="priceLimitHelp">
+            <small id="priceLimitHelp" class="form-text text-muted">
+                Under which price for the item would you like to get notified?
+            </small>
         </div>
-        <button type="submit" class="btn btn-default">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
-</div>
+</section>
 {% endblock %}

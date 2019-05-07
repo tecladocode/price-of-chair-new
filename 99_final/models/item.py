@@ -1,28 +1,21 @@
 from dataclasses import dataclass, field
-from typing import Dict
-import uuid
+from typing import Dict, List
 from bs4 import BeautifulSoup
 import requests
 import re
-from models.model import Model
+import uuid
 from common.database import Database
-from models.store import Store
+from models.model import Model
 
 
 @dataclass(eq=False)
 class Item(Model):
     collection: str = field(init=False, default="items")
-    name: str
     url: str
-    price: float = None
+    tag_name: str
+    query: Dict
+    price: float = field(default=None)
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
-    tag_name: str = field(init=False)
-    query: Dict = field(init=False)
-
-    def __post_init__(self):
-        store = Store.find_by_url(self.url)
-        self.tag_name = store.tag_name
-        self.query = store.query
 
     def load_price(self) -> float:
         request = requests.get(self.url)
@@ -38,10 +31,11 @@ class Item(Model):
         self.price = float(without_commas)
         return self.price
 
-    def json(self):
+    def json(self) -> Dict:
         return {
             "_id": self._id,
-            "name": self.name,
             "url": self.url,
+            "tag_name": self.tag_name,
             "price": self.price,
+            "query": self.query
         }

@@ -5,15 +5,15 @@ class UserError(Exception):
         self.message = message
 
 
+class UserNotFoundError(UserError):
+    pass
+
+
 class UserAlreadyRegisteredError(UserError):
     pass
 
 
 class InvalidEmailError(UserError):
-    pass
-
-
-class UserNotExistsError(UserError):
     pass
 
 

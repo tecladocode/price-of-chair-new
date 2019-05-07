@@ -1,6 +1,6 @@
 from flask import Blueprint, request, session, url_for, render_template
 from werkzeug.utils import redirect
-from models.user import User, UserErrors, UserDecorators
+from models.user import User, UserErrors
 
 
 user_blueprint = Blueprint('users', __name__)
@@ -15,7 +15,7 @@ def login_user():
         try:
             if User.is_login_valid(email, password):
                 session['email'] = email
-                return redirect(url_for(".user_alerts"))
+                return email
         except UserErrors.UserError as e:
             return e.message
 
@@ -31,27 +31,8 @@ def register_user():
         try:
             if User.register_user(email, password):
                 session['email'] = email
-                return redirect(url_for(".user_alerts"))
+                return email
         except UserErrors.UserError as e:
             return e.message
 
     return render_template("users/register.html")  # Send the user an error if their login was invalid
-
-
-@user_blueprint.route('/alerts')
-@UserDecorators.requires_login
-def user_alerts():
-    user = User.find_by_email(session['email'])
-    return render_template("users/alerts.html", alerts=user.get_alerts())
-
-
-@user_blueprint.route('/logout')
-def logout_user():
-    session['email'] = None
-    return redirect(url_for('home'))
-
-
-@user_blueprint.route('/check_alerts/<string:user_id>')
-@UserDecorators.requires_login
-def check_user_alerts(user_id):
-    pass
