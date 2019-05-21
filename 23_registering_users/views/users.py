@@ -1,5 +1,4 @@
-from flask import Blueprint, request, session, url_for, render_template
-from werkzeug.utils import redirect
+from flask import Blueprint, request, session, url_for, render_template, redirect
 from models.user import User, UserErrors
 
 

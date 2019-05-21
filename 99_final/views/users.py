@@ -1,5 +1,4 @@
-from flask import Blueprint, request, session, url_for, render_template
-from werkzeug.utils import redirect
+from flask import Blueprint, request, session, url_for, render_template, redirect
 from models.user import User, UserErrors
 
 
@@ -15,7 +14,7 @@ def login_user():
         try:
             if User.is_login_valid(email, password):
                 session['email'] = email
-                return email
+                return redirect(url_for('alerts.index'))
         except UserErrors.UserError as e:
             return e.message
 
@@ -31,7 +30,7 @@ def register_user():
         try:
             if User.register_user(email, password):
                 session['email'] = email
-                return email
+                return redirect(url_for('alerts.index'))
         except UserErrors.UserError as e:
             return e.message
 
