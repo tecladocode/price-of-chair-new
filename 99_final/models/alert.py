@@ -13,7 +13,7 @@ class Alert(Model):
     collection: str = field(init=False, default="alerts")
     name: str
     item_id: str
-    price_limit: str
+    price_limit: float
     user_email: str
     _id: str = field(default_factory=lambda: uuid.uuid4().hex)
 
